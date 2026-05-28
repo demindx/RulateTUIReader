@@ -1,0 +1,17 @@
+### login
+
+# creds is needs to be encrypted by RSA
+POST {{API_URL}}auth2?key={{API_KEY}}
+Content-Type: application/x-www-form-urlencoded
+
+
+### getMe
+
+GET {{API_URL}}getMe?key={{API_KEY}}
+Authorization: Bearer {{USER_TOKEN}}
+
+
+### getBookmarks
+
+GET {{API_URL}}bookmarks?key={{API_KEY}}
+Authorization: Bearer {{USER_TOKEN}}

@@ -1,0 +1,11 @@
+### getGenres
+
+GET {{API_URL}}genres?key={{API_KEY}}
+
+### getTags
+
+GET {{API_URL}}tags?key={{API_KEY}}
+
+### getLangs
+
+GET {{API_URL}}getLangs?key={{API_KEY}}

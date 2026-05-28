@@ -1,0 +1,14 @@
+### bookById
+GET {{API_URL}}book?book_id=179892&key={{API_KEY}}
+
+
+### topBooks
+GET {{API_URL}}topBooks?key={{API_KEY}}
+
+
+### getBookChapters
+GET {{API_URL}}bookChapters?key={{API_KEY}}&book_id=179892
+
+
+### getChapter
+GET {{API_URL}}chapter?key={{API_KEY}}&book_id=179892&chapter_id=16976512
