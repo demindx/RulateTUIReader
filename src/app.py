@@ -22,18 +22,16 @@ async def _auth_middleware(
 
     token = keyring.get_token()
 
-    if not token:
-        raise RequestException("You must login")
-
-    req.headers["Authorization"] = f"Bearer {token}"
+    if token:
+        req.headers["Authorization"] = f"Bearer {token}"
 
     return await handler(req)
 
 
 class App:
     def __init__(self) -> None:
-        self.client: AppService | None = None
-        self.ui: UI = UI()
+        self._service: AppService | None = None
+        self._ui: UI | None = None
 
     async def start(self) -> None:
         async with aiohttp.ClientSession(
@@ -41,14 +39,8 @@ class App:
             headers={"user-agent": "RuLateApp Android"},
             middlewares=(_api_key_middleware, _auth_middleware),
         ) as session:
-            self.client = AppService(session)
+            self._service = AppService(session)
 
-            user = await self.client.user.login(config.TEST_LOGIN, config.TEST_PASS)
+            self._ui = UI(self._service)
 
-            print(user)
-
-            new_user = await self.client.user.get_me()
-
-            print(new_user)
-
-            # await self.ui.run_async()
+            await self._ui.run_async()

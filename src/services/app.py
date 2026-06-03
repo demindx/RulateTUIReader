@@ -9,5 +9,6 @@ from src.services.user import UserService
 
 class AppService:
     def __init__(self, session: aiohttp.ClientSession) -> None:
-        self.user: UserService = UserService(UserApiClient(session), KeyringService())
+        self.keyring: KeyringService = KeyringService()
+        self.user: UserService = UserService(UserApiClient(session), self.keyring)
         self.book: BookService = BookService(BookApiClient(session))
