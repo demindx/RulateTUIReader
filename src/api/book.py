@@ -1,46 +1,42 @@
+from typing import override
+
 import aiohttp
 
-from src.core.exceptions import RequestException
-from src.types.bookmark import Bookmark
-from src.types.chapter import Chapter
-from src.types.response import RulateResponse
+from src.api.base import BaseApiClient
+from src.core.interfaces.book_repo import BookRepoInterface
+from src.models.book import Book
+from src.models.chapter import Chapter
 
 
-class BookApiClient:
+class BookApiClient(BookRepoInterface, BaseApiClient):
     def __init__(self, session: aiohttp.ClientSession) -> None:
-        self.__session: aiohttp.ClientSession = session
+        self._session: aiohttp.ClientSession = session
 
-    async def get_bookmarks(self) -> list[Bookmark]:
-        async with self.__session.get("bookmarks") as response:
-            data = RulateResponse.model_validate(await response.json())
+    @override
+    async def get_book(self, id: int) -> Book:
+        params = {"book_id": id}
 
-            if data.status == "fail":
-                raise RequestException(data.msg)
+        async with self._session.get("book", params=params) as response:
+            data = await self._validate_response(response)
 
-            bookmarks: list[Bookmark] = [
-                Bookmark.model_validate(bookmark) for bookmark in data.response
-            ]
+            return Book.model_validate(data.response)
 
-            return bookmarks
+    @override
+    async def get_chapters(self, id: int) -> list[Chapter]:
+        params = {"book_id": id}
 
+        async with self._session.get("bookChapters", params=params) as response:
+            data = await self._validate_response(response)
+
+            chapters = [Chapter.model_validate(chapter) for chapter in data.response]
+
+            return chapters
+
+    @override
     async def get_chapter(self, book_id: int, chapter_id: int) -> Chapter:
-        async with self.__session.get(
-            "chapter", params={"book_id": book_id, "chapter_id": chapter_id}
-        ) as response:
-            data = RulateResponse.model_validate(await response.json())
+        params = {"book_id": book_id, "chapter_id": chapter_id}
 
-            if data.status == "fail":
-                raise RequestException(data.msg)
+        async with self._session.get("chapter", params=params) as response:
+            data = await self._validate_response(response)
 
             return Chapter.model_validate(data.response)
-
-    async def get_chapters(self, book_id: int) -> list[Chapter]:
-        async with self.__session.get(
-            "bookChapters", params={"book_id": book_id}
-        ) as response:
-            data = RulateResponse.model_validate(await response.json())
-
-            if data.status == "fail":
-                raise RequestException(data.msg)
-
-            return [Chapter.model_validate(chapter) for chapter in data.response]
