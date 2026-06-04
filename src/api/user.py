@@ -8,7 +8,7 @@ from src.config import config
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
 
-from src.core.interfaces.user_repo import UserRepoInterface
+from src.core.interfaces.user import UserRepoInterface
 from src.models.user import User
 
 

@@ -3,7 +3,7 @@ from typing import override
 import aiohttp
 
 from src.api.base import BaseApiClient
-from src.core.interfaces.book_repo import BookRepoInterface
+from src.core.interfaces.book import BookRepoInterface
 from src.models.book import Book
 from src.models.chapter import Chapter
 
