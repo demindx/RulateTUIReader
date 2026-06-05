@@ -1,5 +1,5 @@
-from src.core.interfaces.user_repo import UserRepoInterface
-from src.models.user import User
+from src.core.interfaces.user import UserRepoInterface
+from src.models.user import UserModel
 from src.services.keyring import KeyringService
 
 
@@ -8,10 +8,10 @@ class UserService:
         self._repo: UserRepoInterface = repo
         self._keyring: KeyringService = keyring
 
-    async def get_me(self) -> User:
+    async def get_me(self) -> UserModel:
         return await self._repo.get_me()
 
-    async def login(self, login: str, password: str) -> User:
+    async def login(self, login: str, password: str) -> UserModel:
         user = await self._repo.login(login, password)
 
         if user.token:
