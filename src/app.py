@@ -1,5 +1,4 @@
 import aiohttp
-from src.core.exceptions import RequestException
 from src.services.app import AppService
 from src.services.keyring import KeyringService
 from src.ui.ui import UI

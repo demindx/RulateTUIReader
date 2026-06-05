@@ -14,12 +14,12 @@ class UI(App):
         self._service: AppService = service
 
     async def on_mount(self) -> None:
-        self._service.keyring.delete_token()
+        # self._service.keyring.delete_token()
         self.push_screen(BookmarksScreen(self._service))
 
         if not self._service.keyring.get_token():
             self.push_screen(LoginScreen(self._service))
 
-    @on(LoginScreen.UserLoggedIn)
-    async def remove_login_screen(self) -> None:
-        self.pop_screen()
+    # @on(LoginScreen.UserLoggedIn)
+    # async def remove_login_screen(self) -> None:
+    #     self.pop_screen()
