@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class Chapter(BaseModel):
+class ChapterModel(BaseModel):
     id: int
     title: str
     ord: int | None = None

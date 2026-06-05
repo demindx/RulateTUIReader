@@ -9,7 +9,7 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
 
 from src.core.interfaces.user import UserRepoInterface
-from src.models.user import User
+from src.models.user import UserModel
 
 
 class UserApiClient(UserRepoInterface, BaseApiClient):
@@ -25,7 +25,7 @@ class UserApiClient(UserRepoInterface, BaseApiClient):
         return base64.b64encode(encrypted).decode("utf-8")
 
     @override
-    async def login(self, login: str, password: str) -> User:
+    async def login(self, login: str, password: str) -> UserModel:
         enc_login = self.__encrypt(login)
         enc_pass = self.__encrypt(password)
 
@@ -36,11 +36,11 @@ class UserApiClient(UserRepoInterface, BaseApiClient):
         async with self._session.post("auth2", data=form) as response:
             data = await self._validate_response(response)
 
-            return User.model_validate(data.response)
+            return UserModel.model_validate(data.response)
 
     @override
-    async def get_me(self) -> User:
+    async def get_me(self) -> UserModel:
         async with self._session.get("getMe") as response:
             data = await self._validate_response(response)
 
-            return User.model_validate(data.response)
+            return UserModel.model_validate(data.response)

@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Self
 from pydantic import BaseModel
 
-from src.types.book import Book
+from src.models.book import BookModel
 
 
 class BookmarkType(Enum):
@@ -25,9 +25,9 @@ class BookmarkType(Enum):
         return self.label
 
 
-class Bookmark(BaseModel):
+class BookmarkModel(BaseModel):
     last_readed: int
     new_chapters: int
     free_new_chapters: int
     type: BookmarkType
-    book: Book
+    book: BookModel
