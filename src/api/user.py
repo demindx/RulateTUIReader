@@ -9,6 +9,7 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_v1_5
 
 from src.core.interfaces.user import UserRepoInterface
+from src.models.bookmark import BookmarkModel
 from src.models.user import UserModel
 
 
@@ -44,3 +45,12 @@ class UserApiClient(UserRepoInterface, BaseApiClient):
             data = await self._validate_response(response)
 
             return UserModel.model_validate(data.response)
+
+    @override
+    async def get_bookmarks(self) -> list[BookmarkModel]:
+        async with self._session.get("bookmarks") as response:
+            data = await self._validate_response(response)
+
+            return [
+                BookmarkModel.model_validate(bookmark) for bookmark in data.response
+            ]

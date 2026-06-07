@@ -1,38 +1,42 @@
+from typing import cast, TYPE_CHECKING
 from textual import work
 from textual.app import ComposeResult
+from textual.containers import Vertical, VerticalScroll
 from textual.screen import Screen
 from textual.widgets import Footer, Header
 
-from src.services.app import AppService
+from src.ui.widgets.bookmark import Bookmark
 from src.ui.widgets.user import User as UserWidget
+
+if TYPE_CHECKING:
+    from src.ui.ui import UI
 
 
 class BookmarksScreen(Screen):
-    def __init__(self, service: AppService) -> None:
+    def __init__(self) -> None:
         super().__init__()
 
-        self._servcie: AppService = service
         self._user_widget: UserWidget = UserWidget()
         self._avatar_worker = None
+        self._service = cast("UI", self.app).service
+
+        self._bookmarks_contaner = VerticalScroll()
 
     def compose(self) -> ComposeResult:
         yield Header()
 
-        yield self._user_widget
+        with Vertical(classes="wrapper"):
+            yield self._bookmarks_contaner
+            yield self._user_widget
+
         yield Footer()
 
     @work()
-    async def _load_avatar(self) -> None:
-        user = await self._servcie.user.get_me()
-        img = await self._servcie.image.get_rounded_image(user.avatar)
+    async def _load_bookmark(self) -> None:
+        bookmarks = await self._service.user.get_bookmarks()
 
-        self._user_widget.balance = user.balance
-        self._user_widget.avatar.image = img
+        for bookmark in bookmarks:
+            self._bookmarks_contaner.mount(Bookmark(bookmark))
 
-    async def on_mount(self) -> None:
-        if self._servcie.keyring.get_token():
-            self._avatar_worker = self._load_avatar()
-
-    async def on_unmount(self) -> None:
-        if self._avatar_worker:
-            self._avatar_worker.cancel()
+    def on_mount(self) -> None:
+        self._load_bookmark()

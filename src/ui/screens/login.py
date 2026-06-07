@@ -1,4 +1,5 @@
-from textual import on
+from typing import TYPE_CHECKING, cast
+from textual import on, work
 from textual.app import ComposeResult
 from textual.containers import CenterMiddle
 from textual.screen import ModalScreen
@@ -7,28 +8,14 @@ from textual.widgets import (
     Label,
 )
 
-from src.services.app import AppService
+
+if TYPE_CHECKING:
+    from src.ui.ui import UI
 
 
 class LoginScreen(ModalScreen):
-    DEFAULT_CSS = """
-    LoginScreen {
-        align: center middle;
-        background: $background 60%;
-    }
-
-    LoginScreen > CenterMiddle {
-        width: 50%;
-        height: auto;
-        background: $panel;
-        border: thick $primary;
-        padding: 2 4;
-    }
-    """
-
-    def __init__(self, service: AppService) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self._service: AppService = service
 
     def compose(self) -> ComposeResult:
         self._login_input = Input(placeholder="Enter your login")
@@ -43,7 +30,13 @@ class LoginScreen(ModalScreen):
             yield Label("Password")
             yield self._pass_input
 
+    @work()
+    async def _login(self) -> None:
+        service = cast("UI", self.app).service
+
+        await service.user.login(self._login_input.value, self._pass_input.value)
+
     @on(Input.Submitted, "#pass_input")
     async def login(self) -> None:
-        await self._service.user.login(self._login_input.value, self._pass_input.value)
+        self._login()
         self.dismiss()

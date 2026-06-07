@@ -1,0 +1,95 @@
+Vertical.wrapper {
+    margin: 1 0 0 0;
+}
+
+LoginScreen {
+    align: center middle;
+    background: $background 60%;
+}
+
+LoginScreen > CenterMiddle {
+    width: 50%;
+    height: auto;
+    background: $panel;
+    border: thick $primary;
+    padding: 2 4;
+}
+
+User {
+    dock: bottom;
+    width: 100%;
+    height: auto;
+    margin-bottom: 1;
+    padding: 1 2;
+    content-align: center middle;
+}
+
+User > Horizontal {
+    width: 100%;
+    height: auto;
+    align: center middle;
+}
+
+User Label {
+    margin-right: 1;
+    height: 3;
+    content-align: center middle;
+    text-style: bold;
+}
+
+User Image {
+    width: 6;
+    height: 3;
+}
+
+Bookmark {
+    width: 100%;
+    height: auto;
+    margin: 0 1 1 1;
+    padding: 1 2;
+    background: $surface;
+    border: tall $primary-background;
+}
+
+Bookmark:hover {
+    background: $boost;
+    border: tall $accent;
+}
+
+Bookmark > Horizontal {
+    width: 100%;
+    height: auto;
+}
+
+Bookmark Image.bookmark-cover {
+    width: 16;
+    height: 16;
+    margin-right: 2;
+    content-align: center middle;
+}
+
+Bookmark .bookmark-content {
+    width: 1fr;
+    height: auto;
+}
+
+Bookmark .bookmark-title {
+    width: 100%;
+    height: auto;
+    text-style: bold;
+    color: $text;
+}
+
+Bookmark .bookmark-subtitle {
+    width: 100%;
+    height: auto;
+    margin-top: 1;
+    color: $text-muted;
+}
+
+Bookmark .bookmark-meta {
+    width: 100%;
+    height: auto;
+    margin-top: 1;
+    color: $accent;
+}
