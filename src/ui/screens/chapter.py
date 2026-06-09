@@ -2,6 +2,7 @@ from markdownify import markdownify as md
 from typing import TYPE_CHECKING, cast
 from textual import work
 from textual.app import ComposeResult
+from textual.containers import VerticalScroll
 from textual.widgets import Markdown
 
 from src.models.chapter import ChapterModel
@@ -21,7 +22,8 @@ class ChapterScreen(BaseScreen):
         self._chapter_text = Markdown()
 
     def compose_result(self) -> ComposeResult:
-        yield self._chapter_text
+        with VerticalScroll():
+            yield self._chapter_text
 
     @work()
     async def _load_chapter(self) -> None:
