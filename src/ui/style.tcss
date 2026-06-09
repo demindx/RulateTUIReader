@@ -1,5 +1,5 @@
-Vertical.wrapper {
-    margin: 1 0 0 0;
+.main_wrapper {
+	padding: 1;
 }
 
 LoginScreen {
@@ -42,18 +42,26 @@ User Image {
     height: 3;
 }
 
+ListView {
+    width: 100%;
+    height: 1fr;
+    background: transparent;
+}
+
+ListItem {
+    width: 100%;
+    height: auto;
+    padding: 0;
+    margin: 0 1 1 1;
+    background: transparent;
+}
+
 Bookmark {
     width: 100%;
     height: auto;
-    margin: 0 1 1 1;
     padding: 1 2;
     background: $surface;
     border: tall $primary-background;
-}
-
-Bookmark:hover {
-    background: $boost;
-    border: tall $accent;
 }
 
 Bookmark > Horizontal {

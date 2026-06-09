@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, cast
 from textual import work
 from textual.app import ComposeResult
 from textual.containers import VerticalScroll
-from textual.widgets import Markdown
+from textual.widgets import Label, Markdown
 
 from src.models.chapter import ChapterModel
 from src.services.app import AppService
@@ -20,8 +20,10 @@ class ChapterScreen(BaseScreen):
         self._chapter_id: int = chapter_id
         self._book_id: int = book_id
         self._chapter_text = Markdown()
+        self._label = Label()
 
     def compose_result(self) -> ComposeResult:
+        yield self._label
         with VerticalScroll():
             yield self._chapter_text
 
@@ -35,6 +37,8 @@ class ChapterScreen(BaseScreen):
 
         if chapter.text:
             self._chapter_text.append(md(chapter.text))
+
+        self._label.update(f"[bold]{chapter.title}[/bold]")
 
     async def on_mount(self) -> None:
         self._load_chapter()
