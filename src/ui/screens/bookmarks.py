@@ -2,9 +2,8 @@ from typing import cast, TYPE_CHECKING
 from textual import work
 from textual.app import ComposeResult
 from textual.containers import Vertical, VerticalScroll
-from textual.screen import Screen
-from textual.widgets import Footer, Header
 
+from src.ui.screens.base import BaseScreen
 from src.ui.widgets.bookmark import Bookmark
 from src.ui.widgets.user import User as UserWidget
 
@@ -12,7 +11,7 @@ if TYPE_CHECKING:
     from src.ui.ui import UI
 
 
-class BookmarksScreen(Screen):
+class BookmarksScreen(BaseScreen):
     def __init__(self) -> None:
         super().__init__()
 
@@ -22,14 +21,10 @@ class BookmarksScreen(Screen):
 
         self._bookmarks_contaner = VerticalScroll()
 
-    def compose(self) -> ComposeResult:
-        yield Header()
-
+    def compose_result(self) -> ComposeResult:
         with Vertical(classes="wrapper"):
             yield self._bookmarks_contaner
             yield self._user_widget
-
-        yield Footer()
 
     @work()
     async def _load_bookmark(self) -> None:
