@@ -34,7 +34,9 @@ class User(Widget):
 
         user = await service.user.get_me()
         self.balance = user.balance
-        self._avatar.image = await service.image.get_rounded_image(user.avatar)
+        self._avatar.image = await service.image.get_rounded_image(
+            user.avatar, (100, 100)
+        )
 
     def on_mount(self) -> None:
         self._load_user()

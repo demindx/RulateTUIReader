@@ -14,8 +14,9 @@ if TYPE_CHECKING:
 
 
 class Bookmark(Widget):
-    class UserSelectedBookmark(Message):
+    class Selected(Message):
         def __init__(self, bookmark: BookmarkModel) -> None:
+            super().__init__()
             self.bookmark = bookmark
 
     def __init__(self, bookmark: BookmarkModel) -> None:
@@ -55,9 +56,12 @@ class Bookmark(Widget):
     async def _load_image(self) -> None:
         service = cast("UI", self.app).service
 
-        image = await service.image.get_image(self.bookmark.book.img)
+        image = await service.image.get_image(self.bookmark.book.img, (160, 220))
 
         self.image.image = image
 
     def on_mount(self) -> None:
         self._load_image()
+
+    async def on_click(self) -> None:
+        self.post_message(self.Selected(self.bookmark))
