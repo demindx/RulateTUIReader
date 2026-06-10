@@ -5,6 +5,7 @@ from textual.binding import Binding, BindingType
 from textual.widgets import ListItem, ListView
 
 from src.ui.screens.base import BaseScreen
+from src.ui.screens.chapter import ChapterScreen
 from src.ui.widgets.bookmark import Bookmark
 
 if TYPE_CHECKING:
@@ -64,3 +65,18 @@ class BookmarksScreen(BaseScreen):
 
     def on_mount(self) -> None:
         self._load_bookmark()
+
+    @on(Bookmark.Selected)
+    async def open_chapter(self, event: Bookmark.Selected) -> None:
+        bookmark = event.bookmark
+        chapter_id = bookmark.last_readed
+
+        if chapter_id == 0:
+            book = await self._service.book.get_book(bookmark.book.id)
+            chapter_id = book.first_chapter
+
+        if chapter_id is None:
+            raise ValueError("chapter_id cannot be None.")
+
+        app = cast("UI", self.app)
+        app.push_screen(ChapterScreen(book_id=bookmark.book.id, chapter_id=chapter_id))

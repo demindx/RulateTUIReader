@@ -26,17 +26,3 @@ class UI(App):
 
         if not self._service.keyring.get_token():
             self.push_screen(LoginScreen())
-
-    @on(Bookmark.Selected)
-    async def open_chapter(self, event: Bookmark.Selected) -> None:
-        bookmark = event.bookmark
-        chapter_id = bookmark.last_readed
-
-        if chapter_id == 0:
-            book = await self._service.book.get_book(bookmark.book.id)
-            chapter_id = book.first_chapter
-
-        if chapter_id is None:
-            raise ValueError("chapter_id cannot be None.")
-
-        self.push_screen(ChapterScreen(book_id=bookmark.book.id, chapter_id=chapter_id))
