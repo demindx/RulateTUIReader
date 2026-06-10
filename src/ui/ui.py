@@ -5,7 +5,7 @@ from src.services.app import AppService
 
 from src.ui.screens.bookmarks import BookmarksScreen
 from src.ui.screens.chapter import ChapterScreen
-from src.ui.screens.login import LoginScreen
+from src.ui.screens.modals.login import LoginScreen
 from src.ui.widgets.bookmark import Bookmark
 
 
