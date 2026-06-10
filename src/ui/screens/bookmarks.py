@@ -26,10 +26,10 @@ class BookmarksScreen(BaseScreen):
         self._avatar_worker = None
         self._service = cast("UI", self.app).service
 
-        self._bookmarks_contaner = ListView()
+        self._bookmarks_container = ListView()
 
     def compose_result(self) -> ComposeResult:
-        yield self._bookmarks_contaner
+        yield self._bookmarks_container
 
     @work()
     async def _load_bookmark(self) -> None:
@@ -37,25 +37,25 @@ class BookmarksScreen(BaseScreen):
 
         for bookmark in bookmarks:
             item = ListItem(Bookmark(bookmark))
-            self._bookmarks_contaner.append(item)
+            self._bookmarks_container.append(item)
 
     async def action_list_down(self) -> None:
-        if self._bookmarks_contaner.index is not None:
-            self._bookmarks_contaner.index += 1
+        if self._bookmarks_container.index is not None:
+            self._bookmarks_container.index += 1
         else:
-            self._bookmarks_contaner.index = 0
+            self._bookmarks_container.index = 0
 
     async def action_list_up(self) -> None:
-        if self._bookmarks_contaner.index is not None:
-            self._bookmarks_contaner.index -= 1
+        if self._bookmarks_container.index is not None:
+            self._bookmarks_container.index -= 1
         else:
-            self._bookmarks_contaner.index = 0
+            self._bookmarks_container.index = 0
 
     async def action_list_top(self) -> None:
-        self._bookmarks_contaner.index = 0
+        self._bookmarks_container.index = 0
 
     async def action_list_bottom(self) -> None:
-        self._bookmarks_contaner.index = len(self._bookmarks_contaner) - 1
+        self._bookmarks_container.index = len(self._bookmarks_container) - 1
 
     @on(ListView.Selected)
     async def list_view_selected(self, event: ListView.Selected) -> None:
