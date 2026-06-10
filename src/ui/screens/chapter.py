@@ -19,6 +19,11 @@ class ChapterScreen(BaseScreen):
     BINDINGS: list[BindingType] = [
         Binding("j", "scroll_down"),
         Binding("k", "scroll_up"),
+        Binding("g", "scroll_top"),
+        Binding("G", "scroll_bottom"),
+        Binding("h", "prev_chap"),
+        Binding("l", "next_chap"),
+        Binding("q", "close_chapter"),
     ]
 
     def __init__(self, chapter_id: int, book_id: int) -> None:
@@ -64,6 +69,12 @@ class ChapterScreen(BaseScreen):
     def action_scroll_up(self) -> None:
         self._scroll.action_scroll_up()
 
+    def action_scroll_top(self) -> None:
+        self._scroll.action_scroll_home()
+
+    def action_scroll_bottom(self) -> None:
+        self._scroll.action_scroll_end()
+
     def action_next_chap(self) -> None:
         if self._chapter and self._chapter.next_chap:
             self._chapter_id = self._chapter.next_chap
@@ -79,6 +90,9 @@ class ChapterScreen(BaseScreen):
             self._load_chapter()
 
             self._scroll.action_scroll_home()
+
+    def action_close_chapter(self) -> None:
+        self.dismiss()
 
     @on(Button.Pressed, "#next_chap")
     async def next_chap(self) -> None:
