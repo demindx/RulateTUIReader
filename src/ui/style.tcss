@@ -1,5 +1,6 @@
 .main_wrapper {
 	padding: 1;
+	height: 1fr;
 }
 
 LoginScreen {
@@ -100,4 +101,58 @@ Bookmark .bookmark-meta {
     height: auto;
     margin-top: 1;
     color: $accent;
+}
+
+ChapterScreen {
+    layout: vertical;
+}
+
+ChapterScreen .main_wrapper {
+    layout: vertical;
+    height: 1fr;
+}
+
+ChapterScreen .main_wrapper Label {
+    height: auto;
+    padding: 1 2;
+    text-style: bold;
+    color: $text;
+}
+
+ChapterScreen .main_wrapper VerticalScroll {
+    height: 1fr;
+    padding: 1 2;
+}
+
+ChapterScreen .main_wrapper Markdown {
+    width: 100%;
+    height: auto;
+}
+
+ChapterScreen .main_wrapper Horizontal {
+    width: 100%;
+    height: auto;
+    align: center middle;
+    padding: 1;
+}
+
+ChapterScreen .main_wrapper Button {
+    margin: 0 1;
+    min-width: 20;
+    background: $panel;
+    color: $text;
+    border: tall transparent;
+}
+
+ChapterScreen .main_wrapper Button:hover {
+    background: $secondary;
+    color: $text;
+    border: tall $primary;
+}
+
+ChapterScreen .main_wrapper Button:focus {
+    background: $primary;
+    color: $text;
+    text-style: bold;
+    border: tall $secondary;
 }
