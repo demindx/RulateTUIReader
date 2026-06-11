@@ -9,6 +9,7 @@ from textual.widgets import Button, Label, Markdown
 from src.models.chapter import ChapterModel
 from src.services.app import AppService
 from src.ui.screens.base import BaseScreen
+from src.ui.screens.modals.chapter_list import ChapterListScreen
 
 
 if TYPE_CHECKING:
@@ -17,13 +18,14 @@ if TYPE_CHECKING:
 
 class ChapterScreen(BaseScreen):
     BINDINGS: list[BindingType] = [
-        Binding("j", "scroll_down"),
-        Binding("k", "scroll_up"),
-        Binding("g", "scroll_top"),
-        Binding("G", "scroll_bottom"),
-        Binding("h", "prev_chap"),
-        Binding("l", "next_chap"),
-        Binding("q", "close_chapter"),
+        Binding("j", "scroll_down", description="scroll down"),
+        Binding("k", "scroll_up", description="scroll up"),
+        Binding("g", "scroll_top", description="scroll to top"),
+        Binding("G", "scroll_bottom", description="scroll to bottom"),
+        Binding("h", "prev_chap", description="open previous chapter"),
+        Binding("l", "next_chap", description="open next chapter"),
+        Binding("q", "close_chapter", description="close current chapter"),
+        Binding("o", "open_chapters_list", description="open chapters list"),
     ]
 
     def __init__(self, chapter_id: int, book_id: int) -> None:
@@ -93,6 +95,11 @@ class ChapterScreen(BaseScreen):
 
     def action_close_chapter(self) -> None:
         self.dismiss()
+
+    def action_open_chapters_list(self) -> None:
+        app = cast("UI", self.app)
+
+        app.push_screen(ChapterListScreen(self._book_id))
 
     @on(Button.Pressed, "#next_chap")
     async def next_chap(self) -> None:
