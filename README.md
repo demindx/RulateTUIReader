@@ -1,5 +1,7 @@
 # RulateTUIRaeder
 
+App for reading novels in your bookmarks from website tl.rulate.ru
+
 
 ## Install
 
