@@ -10,7 +10,7 @@ from src.ui.widgets.bookmark import Bookmark
 
 
 class UI(App):
-    TITLE = "tuiReader"
+    TITLE = "RulateTUIReader"
     CSS_PATH = "style.tcss"
 
     def __init__(self, service: AppService) -> None:
