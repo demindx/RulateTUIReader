@@ -155,3 +155,48 @@ ChapterScreen .main_wrapper Button:focus {
     text-style: bold;
     border: tall $secondary;
 }
+
+ChapterListScreen {
+    align: center middle;
+    background: $background 60%;
+}
+
+ChapterListScreen > CenterMiddle {
+    width: 50%;
+    max-height: 70%;
+    min-height: 10;
+    background: $panel;
+    border: thick $primary;
+    padding: 1 0;
+}
+
+ChapterListScreen ListView {
+    width: 100%;
+    height: 1fr;
+    background: transparent;
+    border: none;
+}
+
+ChapterListScreen ListItem {
+    width: 100%;
+    height: auto;
+    padding: 0;
+    margin: 0 1 1 1;
+    background: transparent;
+}
+
+ChapterListScreen ListItem:hover {
+    background: $secondary 40%;
+}
+
+ChapterListScreen ListItem:focus {
+    background: $primary;
+    text-style: bold;
+}
+
+ChapterListScreen ListItem > Label {
+    width: 100%;
+    height: auto;
+    padding: 1 2;
+    color: $text;
+}
