@@ -1,9 +1,9 @@
-from time import time
 import io
+from time import time
+
 import aiohttp
 from PIL import Image, ImageDraw
 from pydantic import HttpUrl
-
 
 _MAX_CACHE_SIZE: int = 100
 

@@ -1,4 +1,5 @@
-from typing import cast, TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
+
 from textual import work
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
@@ -7,10 +8,10 @@ from textual.widget import Widget
 from textual.widgets import Label
 from textual_image.widget import Image
 
+from src.core.exceptions import RequestError
 from src.models.bookmark import BookmarkModel
 from src.models.chapter import ChapterModel
 from src.services.app import AppService
-from src.core.exceptions import RequestException
 
 if TYPE_CHECKING:
     from src.ui.ui import UI
@@ -80,7 +81,7 @@ class Bookmark(Widget):
             self._last_readed_label.update(
                 f"Последняя открытая глава: {self.chapter.title}"
             )
-        except RequestException as e:
+        except RequestError as e:
             self._last_readed_label.update(f"Последняя открытая глава: {e}")
 
     def on_mount(self) -> None:

@@ -1,5 +1,6 @@
-from markdownify import markdownify as md
 from typing import TYPE_CHECKING, cast
+
+from markdownify import markdownify as md
 from textual import on, work
 from textual.app import ComposeResult
 from textual.binding import Binding, BindingType
@@ -11,13 +12,12 @@ from src.services.app import AppService
 from src.ui.screens.base import BaseScreen
 from src.ui.screens.modals.chapter_list import ChapterListScreen
 
-
 if TYPE_CHECKING:
     from src.ui.ui import UI
 
 
 class ChapterScreen(BaseScreen):
-    BINDINGS: list[BindingType] = [
+    BINDINGS: list[BindingType] = [  # type: ignore[misc]
         Binding("j", "scroll_down", description="scroll down"),
         Binding("k", "scroll_up", description="scroll up"),
         Binding("g", "scroll_top", description="scroll to top"),

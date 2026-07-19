@@ -1,13 +1,12 @@
 import base64
 from typing import override
+
 import aiohttp
+from Crypto.Cipher import PKCS1_v1_5
+from Crypto.PublicKey import RSA
 
 from src.api.base import BaseApiClient
 from src.config import config
-
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_v1_5
-
 from src.core.interfaces.user import UserRepoInterface
 from src.models.bookmark import BookmarkModel
 from src.models.user import UserModel
@@ -17,7 +16,7 @@ class UserApiClient(UserRepoInterface, BaseApiClient):
     def __init__(self, session: aiohttp.ClientSession) -> None:
         self._session: aiohttp.ClientSession = session
 
-    def __encrypt(self, data: str) -> str:
+    def _encrypt(self, data: str) -> str:
         key_bytes = base64.b64decode(config.API_DEV_LOGIN_KEY)
         public_key = RSA.importKey(key_bytes)
         cipher = PKCS1_v1_5.new(public_key)
@@ -27,8 +26,8 @@ class UserApiClient(UserRepoInterface, BaseApiClient):
 
     @override
     async def login(self, login: str, password: str) -> UserModel:
-        enc_login = self.__encrypt(login)
-        enc_pass = self.__encrypt(password)
+        enc_login = self._encrypt(login)
+        enc_pass = self._encrypt(password)
 
         form = aiohttp.FormData()
         form.add_field("login", enc_login)
@@ -51,6 +50,7 @@ class UserApiClient(UserRepoInterface, BaseApiClient):
         async with self._session.get("bookmarks") as response:
             data = await self._validate_response(response)
 
+            response_data = data.response or []
             return [
-                BookmarkModel.model_validate(bookmark) for bookmark in data.response
+                BookmarkModel.model_validate(bookmark) for bookmark in response_data
             ]

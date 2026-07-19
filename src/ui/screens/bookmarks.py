@@ -1,4 +1,5 @@
-from typing import cast, TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
+
 from textual import on, work
 from textual.app import ComposeResult
 from textual.binding import Binding, BindingType
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
 
 
 class BookmarksScreen(BaseScreen):
-    BINDINGS: list[BindingType] = [
+    BINDINGS: list[BindingType] = [  # type: ignore[misc]
         Binding("g", "list_top", description="scroll to top"),
         Binding("G", "list_bottom", description="scroll to bottom"),
         Binding("j", "list_down", description="scroll down"),
@@ -69,7 +70,7 @@ class BookmarksScreen(BaseScreen):
     @on(Bookmark.Selected)
     async def open_chapter(self, event: Bookmark.Selected) -> None:
         bookmark = event.bookmark
-        chapter_id = bookmark.last_readed
+        chapter_id: int | None = bookmark.last_readed
 
         if chapter_id == 0:
             book = await self._service.book.get_book(bookmark.book.id)

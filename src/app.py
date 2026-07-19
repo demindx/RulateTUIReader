@@ -1,14 +1,14 @@
 import aiohttp
+
+from src.config import config
 from src.services.app import AppService
 from src.services.keyring import KeyringService
 from src.ui.ui import UI
-from src.config import config
 
 
 async def _api_key_middleware(
     req: aiohttp.ClientRequest, handler: aiohttp.ClientHandlerType
 ) -> aiohttp.ClientResponse:
-
     req.url = req.url.update_query({"key": config.API_KEY})
 
     return await handler(req)

@@ -1,7 +1,7 @@
 from textual.app import ComposeResult
+from textual.containers import Container
 from textual.screen import Screen
 from textual.widgets import Footer, Header
-from textual.containers import Container
 
 from src.ui.widgets.user import User as UserWidget
 

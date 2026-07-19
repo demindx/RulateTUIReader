@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING, cast
+
 from textual import log, on, work
 from textual.app import ComposeResult
 from textual.binding import Binding, BindingType
@@ -21,7 +22,7 @@ class ChapterListScreen(ModalScreen):
 
             self.chapter: ChapterModel = chapter
 
-    BINDINGS: list[BindingType] = [
+    BINDINGS: list[BindingType] = [  # type: ignore[misc]
         Binding("g", "list_top", description="scroll to top"),
         Binding("G", "list_bottom", description="scroll to bottom"),
         Binding("j", "list_down", description="scroll down"),
@@ -33,11 +34,11 @@ class ChapterListScreen(ModalScreen):
 
         self._book_id: int = book_id
         self._scroll: ListView = ListView()
-        self._modal: CenterMiddle = CenterMiddle(self._scroll)
+        self._chapter_modal: CenterMiddle = CenterMiddle(self._scroll)
         self._curr_chapter: ChapterModel = current_chapter
 
     def compose(self) -> ComposeResult:
-        yield self._modal
+        yield self._chapter_modal
 
     @on(ListView.Selected)
     async def list_view_selected(self, event: ListView.Selected) -> None:
@@ -65,7 +66,7 @@ class ChapterListScreen(ModalScreen):
 
     async def on_mount(self) -> None:
         log(self._curr_chapter)
-        self._modal.border_title = "Chapters"
+        self._chapter_modal.border_title = "Chapters"
         self._load_chapters()
 
     @work()

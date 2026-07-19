@@ -1,12 +1,12 @@
-from textual import work
 from typing import TYPE_CHECKING, cast
+
+from textual import work
 from textual.app import ComposeResult
 from textual.containers import Horizontal
 from textual.reactive import reactive
 from textual.widget import Widget
 from textual.widgets import Label
 from textual_image.widget import Image
-
 
 if TYPE_CHECKING:
     from src.ui.ui import UI

@@ -28,8 +28,9 @@ class BookApiClient(BookRepoInterface, BaseApiClient):
         async with self._session.get("bookChapters", params=params) as response:
             data = await self._validate_response(response)
 
+            response_data = data.response or []
             chapters = [
-                ChapterModel.model_validate(chapter) for chapter in data.response
+                ChapterModel.model_validate(chapter) for chapter in response_data
             ]
 
             return chapters

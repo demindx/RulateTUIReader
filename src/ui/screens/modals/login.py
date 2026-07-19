@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING, cast
+
 from textual import on, work
 from textual.app import ComposeResult
 from textual.containers import CenterMiddle
@@ -7,7 +8,6 @@ from textual.widgets import (
     Input,
     Label,
 )
-
 
 if TYPE_CHECKING:
     from src.ui.ui import UI

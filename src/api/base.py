@@ -1,6 +1,6 @@
 import aiohttp
 
-from src.core.exceptions import RequestException
+from src.core.exceptions import RequestError
 from src.models.response import RulateResponse
 
 
@@ -11,16 +11,17 @@ class BaseApiClient:
         try:
             response.raise_for_status()
         except aiohttp.ClientResponseError as e:
-            raise RequestException(str(e))
+            raise RequestError(str(e)) from e
 
         if response.headers["Content-Type"] != "application/json":
-            raise RequestException(f"Invalid response type: {await response.read()}")
+            body = await response.read()
+            raise RequestError(f"Invalid response type: {body.decode()}")
 
         json = await response.json()
 
         data = RulateResponse.model_validate(json)
 
         if data.status == "fail":
-            raise RequestException(data.msg)
+            raise RequestError(data.msg)
 
         return data
