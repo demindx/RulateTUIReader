@@ -19,9 +19,7 @@ class LoginScreen(ModalScreen):
 
     def compose(self) -> ComposeResult:
         self._login_input = Input(placeholder="Enter your login")
-        self._pass_input = Input(
-            placeholder="Enter your password", password=True, id="pass_input"
-        )
+        self._pass_input = Input(placeholder="Enter your password", password=True, id="pass_input")
 
         with CenterMiddle():
             yield Label("Login")

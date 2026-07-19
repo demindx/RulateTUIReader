@@ -5,7 +5,7 @@ from textual.app import ComposeResult
 from textual.containers import Horizontal
 from textual.reactive import reactive
 from textual.widget import Widget
-from textual.widgets import Label
+from textual.widgets import Label, LoadingIndicator
 from textual_image.widget import Image
 
 if TYPE_CHECKING:
@@ -24,6 +24,7 @@ class User(Widget):
         with Horizontal():
             yield self._balance_label
             yield self._avatar
+            yield LoadingIndicator(id="user-loader")
 
     def watch_balance(self, balance: float) -> None:
         self._balance_label.update(str(balance))
@@ -34,9 +35,9 @@ class User(Widget):
 
         user = await service.user.get_me()
         self.balance = user.balance
-        self._avatar.image = await service.image.get_rounded_image(
-            user.avatar, (100, 100)
-        )
+        self._avatar.image = await service.image.get_rounded_image(user.avatar, (100, 100))
+        self.query_one("#user-loader", LoadingIndicator).display = False
+        self._avatar.display = True
 
     def on_mount(self) -> None:
         self._load_user()

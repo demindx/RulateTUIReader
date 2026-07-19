@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, cast
 from textual import on, work
 from textual.app import ComposeResult
 from textual.binding import Binding, BindingType
-from textual.widgets import ListItem, ListView
+from textual.widgets import ListItem, ListView, LoadingIndicator
 
 from src.ui.screens.base import BaseScreen
 from src.ui.screens.chapter import ChapterScreen
@@ -24,13 +24,13 @@ class BookmarksScreen(BaseScreen):
     def __init__(self) -> None:
         super().__init__()
 
-        self._avatar_worker = None
         self._service = cast("UI", self.app).service
 
         self._bookmarks_container = ListView()
 
     def compose_result(self) -> ComposeResult:
         yield self._bookmarks_container
+        yield LoadingIndicator(id="bookmarks-loader")
 
     @work()
     async def _load_bookmark(self) -> None:
@@ -39,6 +39,8 @@ class BookmarksScreen(BaseScreen):
         for bookmark in bookmarks:
             item = ListItem(Bookmark(bookmark))
             self._bookmarks_container.append(item)
+
+        self.query_one("#bookmarks-loader", LoadingIndicator).display = False
 
     async def action_list_down(self) -> None:
         if self._bookmarks_container.index is not None:

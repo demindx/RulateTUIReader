@@ -5,7 +5,7 @@ from textual import on, work
 from textual.app import ComposeResult
 from textual.binding import Binding, BindingType
 from textual.containers import Horizontal, VerticalScroll
-from textual.widgets import Button, Label, Markdown
+from textual.widgets import Button, Label, LoadingIndicator, Markdown
 
 from src.models.chapter import ChapterModel
 from src.services.app import AppService
@@ -47,6 +47,7 @@ class ChapterScreen(BaseScreen):
         yield self._label
         with self._scroll:
             yield self._chapter_text
+            yield LoadingIndicator(id="chapter-loader")
 
             with Horizontal():
                 yield self._prev_chap_btn
@@ -56,6 +57,10 @@ class ChapterScreen(BaseScreen):
     async def _load_chapter(self) -> None:
         service: AppService = cast("UI", self.app).service
 
+        loader = self.query_one("#chapter-loader", LoadingIndicator)
+        loader.display = True
+        self._chapter_text.display = False
+
         self._chapter = await service.book.get_chapter(
             book_id=self._book_id, chapter_id=self._chapter_id
         )
@@ -64,6 +69,9 @@ class ChapterScreen(BaseScreen):
             self._chapter_text.update(md(self._chapter.text))
 
         self._label.update(f"[bold]{self._chapter.title}[/bold]")
+
+        loader.display = False
+        self._chapter_text.display = True
 
     def action_scroll_down(self) -> None:
         self._scroll.action_scroll_down()

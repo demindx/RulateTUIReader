@@ -5,9 +5,7 @@ from src.models.response import RulateResponse
 
 
 class BaseApiClient:
-    async def _validate_response(
-        self, response: aiohttp.ClientResponse
-    ) -> RulateResponse:
+    async def _validate_response(self, response: aiohttp.ClientResponse) -> RulateResponse:
         try:
             response.raise_for_status()
         except aiohttp.ClientResponseError as e:

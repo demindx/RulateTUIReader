@@ -203,3 +203,37 @@ ChapterListScreen Chapter Label {
     padding: 1 2;
     color: $text;
 }
+
+LoadingIndicator {
+    height: 1fr;
+    content-align: center middle;
+}
+
+#bookmarks-loader {
+    height: 1fr;
+    content-align: center middle;
+}
+
+#chapter-loader {
+    height: 1fr;
+    content-align: center middle;
+    margin: 2 0;
+}
+
+#cover-loader {
+    width: 20;
+    height: 14;
+    margin-right: 2;
+    content-align: center middle;
+}
+
+#user-loader {
+    width: 4;
+    height: 2;
+    content-align: center middle;
+}
+
+#chapters-loader {
+    height: 1fr;
+    content-align: center middle;
+}

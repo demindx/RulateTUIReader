@@ -51,6 +51,4 @@ class UserApiClient(UserRepoInterface, BaseApiClient):
             data = await self._validate_response(response)
 
             response_data = data.response or []
-            return [
-                BookmarkModel.model_validate(bookmark) for bookmark in response_data
-            ]
+            return [BookmarkModel.model_validate(bookmark) for bookmark in response_data]

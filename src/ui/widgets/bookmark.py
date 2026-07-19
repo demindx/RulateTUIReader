@@ -5,7 +5,7 @@ from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.message import Message
 from textual.widget import Widget
-from textual.widgets import Label
+from textual.widgets import Label, LoadingIndicator
 from textual_image.widget import Image
 
 from src.core.exceptions import RequestError
@@ -28,12 +28,8 @@ class Bookmark(Widget):
         self.bookmark: BookmarkModel = bookmark
         self.chapter: ChapterModel | None = None
 
-        self._title_label: Label = Label(
-            self.bookmark.book.t_title, classes="bookmark-title"
-        )
-        self._subtitle_label: Label = Label(
-            self.bookmark.book.t_title, classes="bookmark-subtitle"
-        )
+        self._title_label: Label = Label(self.bookmark.book.t_title, classes="bookmark-title")
+        self._subtitle_label: Label = Label(self.bookmark.book.t_title, classes="bookmark-subtitle")
 
         self._last_readed_label: Label = Label(
             classes="bookmark-meta",
@@ -52,6 +48,7 @@ class Bookmark(Widget):
     def compose(self) -> ComposeResult:
         with Horizontal():
             yield self.image
+            yield LoadingIndicator(id="cover-loader")
             with Vertical(classes="bookmark-content"):
                 yield self._title_label
                 yield self._subtitle_label
@@ -67,6 +64,8 @@ class Bookmark(Widget):
         image = await self.service.image.get_image(self.bookmark.book.img, (160, 220))
 
         self.image.image = image
+        self.query_one("#cover-loader", LoadingIndicator).display = False
+        self.image.display = True
 
     @work()
     async def _load_chapter(self) -> None:
@@ -78,9 +77,7 @@ class Bookmark(Widget):
             self.chapter = await self.service.book.get_chapter(
                 self.bookmark.book.id, self.bookmark.last_readed
             )
-            self._last_readed_label.update(
-                f"Последняя открытая глава: {self.chapter.title}"
-            )
+            self._last_readed_label.update(f"Последняя открытая глава: {self.chapter.title}")
         except RequestError as e:
             self._last_readed_label.update(f"Последняя открытая глава: {e}")
 
