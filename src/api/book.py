@@ -29,9 +29,7 @@ class BookApiClient(BookRepoInterface, BaseApiClient):
             data = await self._validate_response(response)
 
             response_data = data.response or []
-            chapters = [
-                ChapterModel.model_validate(chapter) for chapter in response_data
-            ]
+            chapters = [ChapterModel.model_validate(chapter) for chapter in response_data]
 
             return chapters
 

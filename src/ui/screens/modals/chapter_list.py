@@ -3,10 +3,10 @@ from typing import TYPE_CHECKING, cast
 from textual import log, on, work
 from textual.app import ComposeResult
 from textual.binding import Binding, BindingType
-from textual.containers import CenterMiddle
+from textual.containers import CenterMiddle, Vertical
 from textual.message import Message
 from textual.screen import ModalScreen
-from textual.widgets import ListItem, ListView
+from textual.widgets import ListItem, ListView, LoadingIndicator
 
 from src.models.chapter import ChapterModel
 from src.ui.widgets.chapter import Chapter as ChapterWidget
@@ -34,7 +34,9 @@ class ChapterListScreen(ModalScreen):
 
         self._book_id: int = book_id
         self._scroll: ListView = ListView()
-        self._chapter_modal: CenterMiddle = CenterMiddle(self._scroll)
+        self._chapter_modal: CenterMiddle = CenterMiddle(
+            Vertical(self._scroll, LoadingIndicator(id="chapters-loader"))
+        )
         self._curr_chapter: ChapterModel = current_chapter
 
     def compose(self) -> ComposeResult:
@@ -67,6 +69,7 @@ class ChapterListScreen(ModalScreen):
     async def on_mount(self) -> None:
         log(self._curr_chapter)
         self._chapter_modal.border_title = "Chapters"
+        self.query_one("#chapters-loader", LoadingIndicator).display = True
         self._load_chapters()
 
     @work()
@@ -77,3 +80,5 @@ class ChapterListScreen(ModalScreen):
 
         for chapter in chapters:
             self._scroll.append(ListItem(ChapterWidget(chapter)))
+
+        self.query_one("#chapters-loader", LoadingIndicator).display = False

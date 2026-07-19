@@ -14,9 +14,7 @@ class ImageService:
         self._cache: dict[str, tuple[Image.Image, float]] = {}
 
     def _get_cache_size(self) -> float:
-        return (
-            sum([len(img[0].tobytes()) for img in self._cache.values()]) / 1024
-        ) / 1024
+        return (sum([len(img[0].tobytes()) for img in self._cache.values()]) / 1024) / 1024
 
     def _get_from_cache(self, url: HttpUrl) -> Image.Image | None:
         img = self._cache.get(str(url))
@@ -54,9 +52,7 @@ class ImageService:
 
             return img
 
-    async def get_rounded_image(
-        self, url: HttpUrl, size: tuple[int, int]
-    ) -> Image.Image:
+    async def get_rounded_image(self, url: HttpUrl, size: tuple[int, int]) -> Image.Image:
         img = self._get_from_cache(url)
         if img:
             return img
