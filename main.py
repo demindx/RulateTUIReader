@@ -1,6 +1,5 @@
 import asyncio
 
-
 from src.app import App
 
 

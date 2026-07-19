@@ -10,3 +10,6 @@ wheels/
 .venv
 
 .env
+
+# Type checkers
+.mypy_cache/

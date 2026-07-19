@@ -14,3 +14,43 @@ dependencies = [
     "textual>=8.2.7",
     "textual-image>=0.12.0",
 ]
+
+[tool.uv]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.16.0",
+    "pre-commit>=4.6.0",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+    "W",   # pycodestyle warnings
+]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+python_version = "3.12"
+exclude = [".venv/", "__pycache__/", "build/", "dist/"]
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = "src.*"
+check_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = false
+no_implicit_optional = true
+warn_return_any = true
