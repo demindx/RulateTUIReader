@@ -14,10 +14,10 @@ if TYPE_CHECKING:
 
 class BookmarksScreen(BaseScreen):
     BINDINGS: list[BindingType] = [
-        Binding("g", "list_top"),
-        Binding("G", "list_bottom"),
-        Binding("j", "list_down"),
-        Binding("k", "list_up"),
+        Binding("g", "list_top", description="scroll to top"),
+        Binding("G", "list_bottom", description="scroll to bottom"),
+        Binding("j", "list_down", description="scroll down"),
+        Binding("k", "list_up", description="scroll up"),
     ]
 
     def __init__(self) -> None:

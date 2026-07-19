@@ -99,7 +99,11 @@ class ChapterScreen(BaseScreen):
     def action_open_chapters_list(self) -> None:
         app = cast("UI", self.app)
 
-        app.push_screen(ChapterListScreen(self._book_id))
+        if self._chapter:
+            app.push_screen(
+                screen=ChapterListScreen(self._book_id, self._chapter),
+                callback=self._chapter_selected,
+            )
 
     @on(Button.Pressed, "#next_chap")
     async def next_chap(self) -> None:
@@ -108,6 +112,11 @@ class ChapterScreen(BaseScreen):
     @on(Button.Pressed, "#prev_chap")
     async def prev_chap(self) -> None:
         self.action_prev_chap()
+
+    async def _chapter_selected(self, chapter: ChapterModel | None) -> None:
+        if chapter:
+            self._chapter_id = chapter.id
+            self._load_chapter()
 
     async def on_mount(self) -> None:
         self._load_chapter()

@@ -5,15 +5,14 @@
 
 LoginScreen {
     align: center middle;
-    background: $background 60%;
+    background: $background 85%;
 }
 
 LoginScreen > CenterMiddle {
     width: 50%;
     height: auto;
     background: $panel;
-    border: thick $primary;
-    padding: 2 4;
+    padding: 1 2;
 }
 
 User {
@@ -52,16 +51,19 @@ ListItem {
     width: 100%;
     height: auto;
     padding: 0;
-    margin: 0 1 1 1;
-    background: transparent;
+    margin: 0 1 2 1;
+    background: $surface;
+}
+
+ListItem:focus {
+    background: $primary;
 }
 
 Bookmark {
     width: 100%;
     height: auto;
     padding: 1 2;
-    background: $surface;
-    border: tall $primary-background;
+    background: transparent;
 }
 
 Bookmark > Horizontal {
@@ -70,8 +72,8 @@ Bookmark > Horizontal {
 }
 
 Bookmark Image.bookmark-cover {
-    width: 16;
-    height: 16;
+    width: 20;
+    height: 14;
     margin-right: 2;
     content-align: center middle;
 }
@@ -92,14 +94,14 @@ Bookmark .bookmark-subtitle {
     width: 100%;
     height: auto;
     margin-top: 1;
-    color: $text-muted;
+    color: $text;
 }
 
 Bookmark .bookmark-meta {
     width: 100%;
     height: auto;
     margin-top: 1;
-    color: $accent;
+    color: $text;
 }
 
 ChapterScreen {
@@ -140,25 +142,22 @@ ChapterScreen .main_wrapper Button {
     min-width: 20;
     background: $panel;
     color: $text;
-    border: tall transparent;
 }
 
 ChapterScreen .main_wrapper Button:hover {
     background: $secondary;
     color: $text;
-    border: tall $primary;
 }
 
 ChapterScreen .main_wrapper Button:focus {
     background: $primary;
     color: $text;
     text-style: bold;
-    border: tall $secondary;
 }
 
 ChapterListScreen {
     align: center middle;
-    background: $background 60%;
+    background: $background 85%;
 }
 
 ChapterListScreen > CenterMiddle {
@@ -166,8 +165,7 @@ ChapterListScreen > CenterMiddle {
     max-height: 70%;
     min-height: 10;
     background: $panel;
-    border: thick $primary;
-    padding: 1 0;
+    padding: 1;
 }
 
 ChapterListScreen ListView {
@@ -194,7 +192,12 @@ ChapterListScreen ListItem:focus {
     text-style: bold;
 }
 
-ChapterListScreen ListItem > Label {
+ChapterListScreen Chapter {
+    width: 100%;
+    height: auto;
+}
+
+ChapterListScreen Chapter Label {
     width: 100%;
     height: auto;
     padding: 1 2;
